@@ -1,0 +1,29 @@
+@font-face { font-family:CSPishoi; font-style: normal; font-weight: normal; src: url("http://e.copticbook.net/WebFonts/CSAVVAS0.eot"); }
+  @font-face {
+    font-family: Athanasius;
+    font-style:  normal;
+    font-weight: normal;
+    src: url("WebFonts/Athanasius.ttf");
+
+}
+@font-face { font-family:Antonious; font-style: normal; font-weight: normal; src: url("http://e.copticbook.net/ANTONIO0.eot"); }
+@font-face { font-family:Verdana; font-style: normal; font-weight: normal; src: url("http://e.copticbook.net/WebFonts/VERDANA0.eot"); }
+@font-face { font-family:"WS Pro"; font-style: normal; font-weight: normal; src: url("WebFonts/Thuluth.otf");}
+span.title { font-family:Arial ; font-size: 10pt; color:#556B2F; font-weight:bold }
+span.meaning { font-style: italic }
+span.coptic { font-family: Athanasius; font-size:12pt }
+span.coptic2 { font-family: Antonious; font-size:14pt }
+p.sidemenuitem { margin-left: 10px; margin-right: 10px; margin-top: 2px; margin-bottom: 2px;font-family: Arial ;font-size:10pt; }
+p.heading1 { margin-left: 10px; margin-right: 10px; margin-top: 30px; margin-bottom: 20px; font-family: Arial ; font-size: 12pt; color:#556B2F; text-transform:uppercase; font-weight:bold; text-indent:0 }
+p.heading2 { margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 10px; font-family: Arial ; font-size: 10pt; font-weight:bold; text-indent:0 }
+p.bodytext { margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 10px; font-family: Arial ; font-size: 10pt; text-align:justify; text-indent:20px}
+p.copticbodytext { margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 10px; font-family: Athanasius ; font-size: 12pt; text-indent:20px}
+p.arabicbodytext { margin-left: 10px; margin-right: 10px; margin-top: 0px; margin-bottom: 10px; font-family: WS Pro; direction:rtl ; font-size: 10pt; text-indent:20px}
+table { font-family: Arial; font-size: 10pt}
+body { font-family: Arial; font-size: 10pt}
+input { font-family: Arial; font-size: 10pt}
+textarea { font-family: Arial; font-size: 10pt}
+p { margin-top: 0; margin-bottom: 0; text-align:left;font-family: Arial; font-size: 10pt;text-indent:0}
+a {text-decoration: none; color:#CC3300}
+a img { border:0; }
+coptic {font-family:Athanasius}

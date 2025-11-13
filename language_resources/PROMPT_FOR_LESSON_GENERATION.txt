@@ -1,0 +1,83 @@
+================================================================================
+                    COPTICLINGO LESSON GENERATION PROMPT
+                         Copy & Paste This Entire Prompt
+================================================================================
+
+I need you to generate Coptic language lessons for the CopticLingo app (a Duolingo-style language learning application).
+
+Please read and follow the instructions in these files:
+
+1. **LESSON_GENERATION_SYSTEM_PROMPT.md** - This contains your role, guidelines, exercise templates, and lesson format specifications. Follow these instructions exactly.
+
+2. **COPTICLINGO_MASTER_RESOURCE.md** - This is your complete knowledge base with all Coptic language content (alphabet, grammar, vocabulary, phrases, dictionaries). Use this as your source of truth for all Coptic language information.
+
+3. **DEVELOPER_QUICK_REFERENCE.md** - Reference this for technical implementation details and data structure requirements.
+
+4. **README.md** - This provides context about the resources and project overview.
+
+================================================================================
+
+TASK: Generate lessons for CopticLingo following this structure:
+
+**Unit 1: Introduction to Coptic (Beginner)**
+- Lesson 1: Meet the Alphabet (Part 1) - Letters Α-Θ
+- Lesson 2: Meet the Alphabet (Part 2) - Letters Ι-Π
+- Lesson 3: Meet the Alphabet (Part 3) - Letters Ρ-Ω
+- Lesson 4: Demotic Letters - Ϣ, Ϥ, Ϧ, Ϩ, Ϫ, Ϭ, Ϯ
+- Lesson 5: Basic Greetings - ⲟⲩϫⲁⲓ, ϣⲉⲡϩⲙⲟⲧ, ⲛⲁⲛⲟⲩⲥ
+
+**Unit 2: First Words (Beginner)**
+- Lesson 6: Numbers 1-10
+- Lesson 7: Family Members
+- Lesson 8: Common Verbs (Part 1)
+- Lesson 9: Articles (Definite & Indefinite)
+- Lesson 10: Simple Sentences
+
+**Unit 3: Grammar Foundations (Elementary)**
+- Lesson 11: Subject Pronouns
+- Lesson 12: Possessive Pronouns
+- Lesson 13: Present Tense
+- Lesson 14: Basic Questions
+- Lesson 15: Negation
+
+**Continue with more units as needed...**
+
+================================================================================
+
+REQUIREMENTS:
+
+1. For each lesson, generate:
+   - Complete lesson metadata (title, unit, difficulty, objectives, etc.)
+   - 8-12 exercises using the 7 exercise types from the system prompt
+   - All Coptic text in proper Unicode (U+2C80-2CFF)
+   - Transliterations and English translations
+   - Audio file references (e.g., "oujai.mp3")
+   - Tips and cultural notes
+   - XP rewards
+
+2. Output format: JSON following the schema in LESSON_GENERATION_SYSTEM_PROMPT.md
+
+3. Exercise types to include (mix them):
+   - Multiple Choice
+   - Translation (English → Coptic and Coptic → English)
+   - Fill in the Blank
+   - Matching Pairs
+   - Sentence Builder (word blocks)
+   - Listening Comprehension
+   - Speaking/Pronunciation
+
+4. Ensure progressive difficulty - each lesson builds on previous knowledge
+
+5. Use ONLY authentic content from COPTICLINGO_MASTER_RESOURCE.md
+
+================================================================================
+
+START WITH: Unit 1, Lesson 1 - "Meet the Alphabet (Part 1)"
+
+Generate the complete lesson JSON with all exercises, vocabulary, and metadata.
+
+After Lesson 1 is complete, I'll ask you to continue with subsequent lessons.
+
+================================================================================
+
+BEGIN LESSON GENERATION NOW.
