@@ -399,4 +399,4 @@ For questions, suggestions, or contributions, please open an issue on GitHub.
 **Last Updated**: January 12, 2025
 **Status**: Active Development
 **Platforms**: iOS, Android, Web
-**Language**: Sahidic Coptic
+**Language**: Bohairic Coptic
