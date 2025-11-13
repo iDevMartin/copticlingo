@@ -2,6 +2,7 @@ import { Audio } from 'expo-av';
 
 class AudioService {
   private sound: Audio.Sound | null = null;
+  private correctSound: Audio.Sound | null = null;
 
   async initialize() {
     try {
@@ -10,6 +11,12 @@ class AudioService {
         staysActiveInBackground: false,
         shouldDuckAndroid: true,
       });
+
+      // Preload the correct answer sound effect
+      const { sound } = await Audio.Sound.createAsync(
+        require('../../assets/audio/correct.mp3')
+      );
+      this.correctSound = sound;
     } catch (error) {
       console.error('Error initializing audio:', error);
     }
@@ -33,6 +40,16 @@ class AudioService {
     }
   }
 
+  async playCorrectSound() {
+    try {
+      if (this.correctSound) {
+        await this.correctSound.replayAsync();
+      }
+    } catch (error) {
+      console.error('Error playing correct sound:', error);
+    }
+  }
+
   async stopAudio() {
     try {
       if (this.sound) {
@@ -47,6 +64,10 @@ class AudioService {
 
   async cleanup() {
     await this.stopAudio();
+    if (this.correctSound) {
+      await this.correctSound.unloadAsync();
+      this.correctSound = null;
+    }
   }
 }
 

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert } from 'react-native';
 import { Card, Button } from '../components';
 import { useProgressStore } from '../store/progressStore';
 import { useAchievementStore } from '../store/achievementStore';
 import { useReviewStore } from '../store/reviewStore';
+import { useSettingsStore } from '../store/settingsStore';
 
 interface SettingsScreenProps {
   onBack: () => void;
@@ -13,8 +14,16 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
   const { resetProgress, totalXP, level } = useProgressStore();
   const { achievements } = useAchievementStore();
   const { reviewItems } = useReviewStore();
-  const [audioEnabled, setAudioEnabled] = useState(true);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const {
+    audioEnabled,
+    soundEffectsEnabled,
+    notificationsEnabled,
+    dailyReminderEnabled,
+    setAudioEnabled,
+    setSoundEffectsEnabled,
+    setNotificationsEnabled,
+    setDailyReminderEnabled,
+  } = useSettingsStore();
 
   const handleResetProgress = () => {
     Alert.alert(
@@ -111,10 +120,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
               <Text style={styles.settingDescription}>Play sounds for correct/incorrect answers</Text>
             </View>
             <Switch
-              value={audioEnabled}
-              onValueChange={setAudioEnabled}
+              value={soundEffectsEnabled}
+              onValueChange={setSoundEffectsEnabled}
               trackColor={{ false: '#d1d5db', true: '#86efac' }}
-              thumbColor={audioEnabled ? '#22c55e' : '#f3f4f6'}
+              thumbColor={soundEffectsEnabled ? '#22c55e' : '#f3f4f6'}
             />
           </View>
         </Card>
@@ -131,10 +140,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
               </Text>
             </View>
             <Switch
-              value={notificationsEnabled}
-              onValueChange={setNotificationsEnabled}
+              value={dailyReminderEnabled}
+              onValueChange={setDailyReminderEnabled}
               trackColor={{ false: '#d1d5db', true: '#86efac' }}
-              thumbColor={notificationsEnabled ? '#22c55e' : '#f3f4f6'}
+              thumbColor={dailyReminderEnabled ? '#22c55e' : '#f3f4f6'}
             />
           </View>
 

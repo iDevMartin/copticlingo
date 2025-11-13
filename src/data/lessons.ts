@@ -554,6 +554,22 @@ const copticUnits: Unit[] = [
             correctAnswer: 'Greetings, Hail',
             options: ['Greetings, Hail', 'Goodbye', 'Thanks', 'Please'],
             explanation: 'ⲭⲉⲣⲉ (khere) means "greetings" or "hail"'
+          },
+          {
+            id: 'ex-2-1-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "Hello"',
+            correctAnswer: 'ⲟⲩϫⲁⲓ',
+            options: ['ⲟⲩϫⲁⲓ', 'ⲛⲁⲛⲟⲩⲥ', 'ϣⲉⲡϩⲙⲟⲧ', 'ⲭⲉⲣⲉ'],
+            explanation: 'ⲟⲩϫⲁⲓ (oujai) is the Coptic word for "hello" or "greetings"'
+          },
+          {
+            id: 'ex-2-1-10',
+            type: 'sentence_building',
+            question: 'Build the phrase: "Thank you"',
+            correctAnswer: 'ϣⲉⲡϩⲙⲟⲧ',
+            wordBank: ['ϣⲉⲡ', 'ϩⲙⲟⲧ', 'ⲟⲩϫⲁⲓ', 'ⲛⲁⲛⲟⲩⲥ'],
+            explanation: 'ϣⲉⲡϩⲙⲟⲧ = ϣⲉⲡ (receive) + ϩⲙⲟⲧ (grace) = "thank you"'
           }
         ]
       },
@@ -641,6 +657,22 @@ const copticUnits: Unit[] = [
             correctAnswer: 'eight',
             options: ['six', 'seven', 'eight', 'nine'],
             explanation: 'ϣⲙⲟⲩⲛ (shmoun) means "eight"'
+          },
+          {
+            id: 'ex-2-2-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "three"',
+            correctAnswer: 'ϣⲟⲙⲧ',
+            options: ['ϣⲟⲙⲧ', 'ϥⲧⲟⲟⲩ', 'ϯⲟⲩ', 'ⲥⲛⲁⲩ'],
+            explanation: 'ϣⲟⲙⲧ (shomt) means "three"'
+          },
+          {
+            id: 'ex-2-2-10',
+            type: 'sentence_building',
+            question: 'Build the number: "four"',
+            correctAnswer: 'ϥⲧⲟⲟⲩ',
+            wordBank: ['ϥⲧⲟⲟⲩ', 'ϯⲟⲩ', 'ϣⲟⲙⲧ', 'ⲥⲟⲟⲩ'],
+            explanation: 'ϥⲧⲟⲟⲩ (ftoou) means "four"'
           }
         ]
       },
@@ -728,6 +760,22 @@ const copticUnits: Unit[] = [
               { coptic: 'ⲁⲗⲟⲩ', english: 'boy' },
               { coptic: 'ⲣⲱⲙⲓ', english: 'man' }
             ]
+          },
+          {
+            id: 'ex-2-3-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "brother"',
+            correctAnswer: 'ⲥⲟⲛ',
+            options: ['ⲥⲟⲛ', 'ⲥⲱⲛⲉ', 'ⲥⲏⲣⲓ', 'ⲉⲓⲱⲧ'],
+            explanation: 'ⲥⲟⲛ (son) means "brother"'
+          },
+          {
+            id: 'ex-2-3-10',
+            type: 'sentence_building',
+            question: 'Build the word: "mother"',
+            correctAnswer: 'ⲙⲁⲁⲩ',
+            wordBank: ['ⲙⲁⲁⲩ', 'ⲉⲓⲱⲧ', 'ⲥⲱⲛⲉ', 'ⲥⲟⲛ'],
+            explanation: 'ⲙⲁⲁⲩ (maau) means "mother"'
           }
         ]
       },
@@ -815,6 +863,22 @@ const copticUnits: Unit[] = [
             correctAnswer: 'earth',
             options: ['earth', 'sky', 'water', 'fire'],
             explanation: 'ⲕⲁϩⲓ (kahi) means "earth" or "land"'
+          },
+          {
+            id: 'ex-2-4-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "bread"',
+            correctAnswer: 'ⲟⲩⲱⲙ',
+            options: ['ⲟⲩⲱⲙ', 'ⲙⲟⲟⲩ', 'ⲏⲣⲡ', 'ⲛⲟⲩϩⲉ'],
+            explanation: 'ⲟⲩⲱⲙ (ouōm) means "bread" or "food"'
+          },
+          {
+            id: 'ex-2-4-10',
+            type: 'sentence_building',
+            question: 'Build the word: "house"',
+            correctAnswer: 'ϩⲓ',
+            wordBank: ['ϩⲓ', 'ⲣⲓ', 'ⲣⲟ', 'ⲫⲉ'],
+            explanation: 'ϩⲓ (yi/hi) means "house"'
           }
         ]
       },
@@ -995,6 +1059,23 @@ const copticUnits: Unit[] = [
             correctAnswer: 'ⲡⲓ',
             options: ['ⲡⲓ', 'ⲧ', 'ⲛⲓ', 'ⲟⲩ'],
             explanation: 'ⲡⲓ is the masculine definite article'
+          },
+          {
+            id: 'ex-3-1-9',
+            type: 'sentence_building',
+            question: 'Build: "the son"',
+            correctAnswer: 'ⲡⲥⲏⲣⲓ',
+            wordBank: ['ⲡ', 'ⲥⲏⲣⲓ', 'ⲧ', 'ⲙⲁⲁⲩ'],
+            explanation: 'ⲡⲥⲏⲣⲓ = ⲡ (the, masc. before s) + ⲥⲏⲣⲓ (son)'
+          },
+          {
+            id: 'ex-3-1-10',
+            type: 'translation',
+            question: 'Translate to English: ⲡⲓϫⲱⲙ',
+            questionCoptic: 'ⲡⲓϫⲱⲙ',
+            correctAnswer: 'the book',
+            options: ['the book', 'a book', 'book', 'the books'],
+            explanation: 'ⲡⲓϫⲱⲙ means "the book"'
           }
         ]
       },
@@ -1076,6 +1157,22 @@ const copticUnits: Unit[] = [
             correctAnswer: 'ⲧⲥⲉⲣⲓ',
             options: ['ⲧⲥⲉⲣⲓ', 'ⲡⲓⲥⲉⲣⲓ', 'ⲛⲓⲥⲉⲣⲓ', 'ⲟⲩⲥⲉⲣⲓ'],
             explanation: 'ⲧⲥⲉⲣⲓ (tseri) means "the daughter"'
+          },
+          {
+            id: 'ex-3-2-9',
+            type: 'sentence_building',
+            question: 'Build: "the mother"',
+            correctAnswer: 'ⲑⲙⲁⲁⲩ',
+            wordBank: ['ⲑ', 'ⲙⲁⲁⲩ', 'ⲡ', 'ⲓⲱⲧ'],
+            explanation: 'ⲑⲙⲁⲁⲩ = ⲑ (the, fem. before m) + ⲙⲁⲁⲩ (mother)'
+          },
+          {
+            id: 'ex-3-2-10',
+            type: 'translation',
+            question: 'Translate to Coptic: "the sister"',
+            correctAnswer: 'ⲧⲥⲱⲛⲉ',
+            options: ['ⲧⲥⲱⲛⲉ', 'ⲡⲓⲥⲱⲛⲉ', 'ⲑⲥⲱⲛⲉ', 'ⲛⲓⲥⲱⲛⲉ'],
+            explanation: 'ⲧⲥⲱⲛⲉ = ⲧ (the, fem.) + ⲥⲱⲛⲉ (sister)'
           }
         ]
       },
@@ -1158,6 +1255,22 @@ const copticUnits: Unit[] = [
             correctAnswer: 'ⲛⲓϫⲓϫ',
             wordBank: ['ⲛⲓ', 'ϫⲓϫ', 'ⲡⲓ', 'ⲧ'],
             explanation: 'ⲛⲓϫⲓϫ = ⲛⲓ (the, plural) + ϫⲓϫ (hands)'
+          },
+          {
+            id: 'ex-3-3-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "the children"',
+            correctAnswer: 'ⲛⲓⲁⲗⲟⲩ',
+            options: ['ⲛⲓⲁⲗⲟⲩ', 'ⲡⲓⲁⲗⲟⲩ', 'ⲧⲁⲗⲟⲩ', 'ⲟⲩⲁⲗⲟⲩ'],
+            explanation: 'ⲛⲓⲁⲗⲟⲩ = ⲛⲓ (the, plural) + ⲁⲗⲟⲩ (children/boys)'
+          },
+          {
+            id: 'ex-3-3-10',
+            type: 'sentence_building',
+            question: 'Build: "the books"',
+            correctAnswer: 'ⲛⲓϫⲱⲙ',
+            wordBank: ['ⲛⲓ', 'ϫⲱⲙ', 'ⲡⲓ', 'ⲧ'],
+            explanation: 'ⲛⲓϫⲱⲙ = ⲛⲓ (the, plural) + ϫⲱⲙ (books)'
           }
         ]
       },
@@ -1240,6 +1353,22 @@ const copticUnits: Unit[] = [
             correctAnswer: 'ⲟⲩⲓⲱⲧ',
             wordBank: ['ⲟⲩ', 'ⲓⲱⲧ', 'ⲡⲓ', 'ⲧ'],
             explanation: 'ⲟⲩⲓⲱⲧ = ⲟⲩ (a) + ⲓⲱⲧ (father)'
+          },
+          {
+            id: 'ex-3-4-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "a child"',
+            correctAnswer: 'ⲟⲩⲁⲗⲟⲩ',
+            options: ['ⲟⲩⲁⲗⲟⲩ', 'ⲡⲓⲁⲗⲟⲩ', 'ⲛⲓⲁⲗⲟⲩ', 'ⲧⲁⲗⲟⲩ'],
+            explanation: 'ⲟⲩⲁⲗⲟⲩ = ⲟⲩ (a) + ⲁⲗⲟⲩ (child/boy)'
+          },
+          {
+            id: 'ex-3-4-10',
+            type: 'sentence_building',
+            question: 'Build: "a sister"',
+            correctAnswer: 'ⲟⲩⲥⲱⲛⲉ',
+            wordBank: ['ⲟⲩ', 'ⲥⲱⲛⲉ', 'ⲧ', 'ⲛⲓ'],
+            explanation: 'ⲟⲩⲥⲱⲛⲉ = ⲟⲩ (a) + ⲥⲱⲛⲉ (sister)'
           }
         ]
       },
@@ -1408,6 +1537,22 @@ const copticUnits: Unit[] = [
               { coptic: 'ⲧⲉ', english: 'is/am (fem.)' },
               { coptic: 'ⲛⲉ', english: 'are (plural)' }
             ]
+          },
+          {
+            id: 'ex-3-6-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "She is a woman"',
+            correctAnswer: 'ⲛⲑⲟⲥ ⲟⲩⲥϩⲓⲙⲉ ⲧⲉ',
+            options: ['ⲛⲑⲟⲥ ⲟⲩⲥϩⲓⲙⲉ ⲧⲉ', 'ⲛⲑⲟϥ ⲟⲩⲣⲱⲙⲓ ⲡⲉ', 'ⲁⲛⲟⲕ ⲟⲩⲥϩⲓⲙⲉ ⲧⲉ', 'ⲛⲑⲱⲟⲩ ϩⲁⲛⲥϩⲓⲙⲓ ⲛⲉ'],
+            explanation: 'ⲛⲑⲟⲥ ⲟⲩⲥϩⲓⲙⲉ ⲧⲉ = She is a woman (ⲛⲑⲟⲥ = she, ⲟⲩⲥϩⲓⲙⲉ = a woman, ⲧⲉ = is fem.)'
+          },
+          {
+            id: 'ex-3-6-10',
+            type: 'sentence_building',
+            question: 'Build: "He is a father"',
+            correctAnswer: 'ⲛⲑⲟϥ ⲟⲩⲓⲱⲧ ⲡⲉ',
+            wordBank: ['ⲛⲑⲟϥ', 'ⲟⲩⲓⲱⲧ', 'ⲡⲉ', 'ⲧⲉ'],
+            explanation: 'ⲛⲑⲟϥ ⲟⲩⲓⲱⲧ ⲡⲉ = He is a father (ⲛⲑⲟϥ = he, ⲟⲩⲓⲱⲧ = a father, ⲡⲉ = is masc.)'
           }
         ]
       }
@@ -1505,6 +1650,22 @@ const copticUnits: Unit[] = [
             correctAnswer: 'She is the woman',
             options: ['She is the woman', 'You are the woman', 'I am the woman', 'She is a woman'],
             explanation: 'ⲛⲑⲟⲥ ⲧⲉ ⲧⲥϩⲓⲙⲉ = She is the woman'
+          },
+          {
+            id: 'ex-4-1-9',
+            type: 'translation',
+            question: 'Translate to Coptic: "You are a sister" (to a female)',
+            correctAnswer: 'ⲛⲑⲟ ⲟⲩⲥⲱⲛⲉ ⲧⲉ',
+            options: ['ⲛⲑⲟ ⲟⲩⲥⲱⲛⲉ ⲧⲉ', 'ⲛⲑⲟⲕ ⲟⲩⲥⲱⲛⲉ ⲧⲉ', 'ⲁⲛⲟⲕ ⲟⲩⲥⲱⲛⲉ ⲧⲉ', 'ⲛⲑⲟⲥ ⲟⲩⲥⲱⲛⲉ ⲧⲉ'],
+            explanation: 'ⲛⲑⲟ ⲟⲩⲥⲱⲛⲉ ⲧⲉ = You (fem.) are a sister (ⲛⲑⲟ = you fem., ⲟⲩⲥⲱⲛⲉ = a sister, ⲧⲉ = is fem.)'
+          },
+          {
+            id: 'ex-4-1-10',
+            type: 'sentence_building',
+            question: 'Build: "I am a mother"',
+            correctAnswer: 'ⲁⲛⲟⲕ ⲟⲩⲙⲁⲁⲩ ⲧⲉ',
+            wordBank: ['ⲁⲛⲟⲕ', 'ⲟⲩⲙⲁⲁⲩ', 'ⲧⲉ', 'ⲡⲉ'],
+            explanation: 'ⲁⲛⲟⲕ ⲟⲩⲙⲁⲁⲩ ⲧⲉ = I am a mother (ⲁⲛⲟⲕ = I, ⲟⲩⲙⲁⲁⲩ = a mother, ⲧⲉ = is fem.)'
           }
         ]
       },

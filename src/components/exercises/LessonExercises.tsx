@@ -9,6 +9,7 @@ import { TranslationExercise } from './TranslationExercise';
 import { SentenceBuildingExercise } from './SentenceBuildingExercise';
 import { ListeningExercise } from './ListeningExercise';
 import { SpeakingExercise } from './SpeakingExercise';
+import { useSoundEffect } from '../../utils/useSoundEffect';
 
 interface LessonProps {
   exercises: Exercise[];
@@ -23,6 +24,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [hearts, setHearts] = useState(3);
   const [exerciseCompleted, setExerciseCompleted] = useState(false);
+  const { playCorrectSound } = useSoundEffect();
 
   const currentExercise = exercises[currentIndex];
   const progress = (currentIndex + 1) / exercises.length;
@@ -37,6 +39,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
 
     if (isCorrect) {
       setCorrectAnswers(prev => prev + 1);
+      playCorrectSound();
     } else {
       setHearts(prev => prev - 1);
     }
@@ -47,6 +50,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
     setExerciseCompleted(true);
     if (correct) {
       setCorrectAnswers(prev => prev + 1);
+      playCorrectSound();
     } else {
       setHearts(prev => prev - 1);
     }
@@ -57,6 +61,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
     // that handle their own state and just report results
     if (correct) {
       setCorrectAnswers(prev => prev + 1);
+      playCorrectSound();
     } else {
       setHearts(prev => prev - 1);
     }
