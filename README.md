@@ -409,6 +409,10 @@ Currently manual testing. Automated testing framework (Jest/React Testing Librar
 
 For questions, suggestions, or contributions, please open an issue on GitHub.
 
+## Additional Resources
+
+- **[Coptic Resources Repository](https://github.com/pishoyg/coptic)** - Comprehensive collection of Coptic language resources, tools, and references
+
 ---
 
 **Version**: 1.0.0

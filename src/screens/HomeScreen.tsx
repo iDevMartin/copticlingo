@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { LessonNode, Card } from '../components';
 import { copticUnits } from '../data/lessons';
 import { useProgressStore } from '../store/progressStore';
@@ -22,6 +22,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const { completedLessons, totalXP, currentStreak, level } = useProgressStore();
   const { developerModeEnabled } = useSettingsStore();
   const { colors } = useTheme();
+  const [isSmallScreen, setIsSmallScreen] = useState(Dimensions.get('window').width < 500);
+
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setIsSmallScreen(window.width < 500);
+    });
+    return () => subscription?.remove();
+  }, []);
 
   const handleDevModePress = () => {
     Alert.alert(
@@ -99,6 +107,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
+    },
+    headerActionsScroll: {
+      flexGrow: 0,
+      flexShrink: 1,
     },
     card: {
       backgroundColor: colors.surface,
@@ -221,13 +233,18 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <Text style={styles.headerTitle}>CopticLingo</Text>
           <Text style={styles.headerSubtitle}>ⲙⲁⲣⲓ ⲉⲣϩⲱⲃ!</Text>
         </View>
-        <View style={styles.headerActions}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.headerActions}
+          style={styles.headerActionsScroll}
+        >
           {developerModeEnabled && (
             <TouchableOpacity onPress={handleDevModePress} activeOpacity={0.8}>
               <View style={[styles.card, styles.devModeCard]}>
                 <View style={styles.devModeContent}>
                   <Text style={styles.devModeIcon}>🛠️</Text>
-                  <Text style={styles.devModeText}>Dev</Text>
+                  {!isSmallScreen && <Text style={styles.devModeText}>Dev</Text>}
                 </View>
               </View>
             </TouchableOpacity>
@@ -243,7 +260,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <Card style={styles.practiceCard} onPress={onReviewPress}>
             <View style={styles.practiceContent}>
               <Text style={styles.practiceIcon}>⚡</Text>
-              <Text style={styles.practiceLabel}>Practice</Text>
+              {!isSmallScreen && <Text style={styles.practiceLabel}>Practice</Text>}
             </View>
           </Card>
           <Card style={styles.xpCard} onPress={onProfilePress}>
@@ -252,7 +269,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <Text style={styles.xpValue}>{totalXP} XP</Text>
             </View>
           </Card>
-        </View>
+        </ScrollView>
       </View>
 
       {/* Skill Tree */}
