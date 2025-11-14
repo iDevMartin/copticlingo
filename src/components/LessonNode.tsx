@@ -76,3 +76,4 @@ export const LessonNode: React.FC<LessonNodeProps> = ({
       </Text>
     </View>
   );
+};

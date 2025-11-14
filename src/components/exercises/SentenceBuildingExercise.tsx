@@ -183,13 +183,14 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
     },
     explanationTitle: {
       fontSize: 14,
-      fontWeight: '600',
-      color: colors.textSecondary,
+      fontWeight: '700',
+      color: colors.warning,
       marginBottom: 4,
     },
     explanationText: {
       fontSize: 14,
-      color: colors.textSecondary,
+      fontWeight: '500',
+      color: colors.textPrimary,
       lineHeight: 20,
     },
     continueButton: {
@@ -288,3 +289,5 @@ function shuffleArray<T>(array: T[]): T[] {
     const j = Math.floor(Math.random() * (i + 1));
     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
+  return newArray;
+}
