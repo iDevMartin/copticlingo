@@ -5,6 +5,7 @@ import { Achievement } from '../types';
 interface AchievementState {
   achievements: Achievement[];
   unlockAchievement: (achievementId: string) => void;
+  resetAchievements: () => void;
 }
 
 const initialAchievements: Achievement[] = [
@@ -157,12 +158,16 @@ export const AchievementProvider: React.FC<{ children: ReactNode }> = ({ childre
     );
   };
 
+  const resetAchievements = () => {
+    setAchievements(initialAchievements);
+  };
+
   if (!isLoaded) {
     return null;
   }
 
   return (
-    <AchievementContext.Provider value={{ achievements, unlockAchievement }}>
+    <AchievementContext.Provider value={{ achievements, unlockAchievement, resetAchievements }}>
       {children}
     </AchievementContext.Provider>
   );

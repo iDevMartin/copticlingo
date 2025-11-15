@@ -14,6 +14,7 @@ interface ReviewState {
   addReviewItem: (item: ReviewItem) => void;
   updateReviewItem: (item: ReviewItem) => void;
   getDueReviews: () => ReviewItem[];
+  resetReviews: () => void;
 }
 
 const ReviewContext = createContext<ReviewState | undefined>(undefined);
@@ -67,6 +68,10 @@ export const ReviewProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     return reviewItems.filter(item => item.nextReviewDate <= today);
   };
 
+  const resetReviews = () => {
+    setReviewItems([]);
+  };
+
   if (!isLoaded) {
     return null;
   }
@@ -78,6 +83,7 @@ export const ReviewProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         addReviewItem,
         updateReviewItem,
         getDueReviews,
+        resetReviews,
       }}
     >
       {children}

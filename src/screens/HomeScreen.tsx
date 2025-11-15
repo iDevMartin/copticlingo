@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { LessonNode, Card } from '../components';
 import { copticUnits } from '../data/lessons';
 import { useProgressStore } from '../store/progressStore';
@@ -23,6 +23,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const { developerModeEnabled } = useSettingsStore();
   const { colors } = useTheme();
   const [isSmallScreen, setIsSmallScreen] = useState(Dimensions.get('window').width < 500);
+  const [showDevModeModal, setShowDevModeModal] = useState(false);
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener('change', ({ window }) => {
@@ -32,16 +33,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   }, []);
 
   const handleDevModePress = () => {
-    Alert.alert(
-      'Developer Mode',
-      'Developer/Debug mode is currently enabled.\n\n' +
-      '• All lessons and units are unlocked\n' +
-      '• Completed lessons do NOT count towards XP progress\n' +
-      '• Achievements will NOT be unlocked\n\n' +
-      'This mode is intended for testing and development purposes only. ' +
-      'Disable it in Settings to track your real progress.',
-      [{ text: 'OK' }]
-    );
+    setShowDevModeModal(true);
   };
 
   const getLessonStatus = (lessonId: string, lessonOrder: number, unitLessons: any[]) => {
@@ -223,6 +215,50 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       gap: 16,
       justifyContent: 'space-evenly',
     },
+    modalOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+    },
+    modalContent: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 24,
+      width: '90%',
+      maxWidth: 400,
+      borderWidth: 2,
+      borderColor: colors.border,
+    },
+    modalTitle: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.textPrimary,
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+    modalMessage: {
+      fontSize: 15,
+      color: colors.textPrimary,
+      lineHeight: 22,
+      marginBottom: 24,
+    },
+    modalButton: {
+      paddingVertical: 12,
+      borderRadius: 8,
+      backgroundColor: colors.primary,
+    },
+    modalButtonText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: '#FFFFFF',
+      textAlign: 'center',
+    },
   });
 
   return (
@@ -231,7 +267,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       <View style={styles.header}>
         <View>
           <Text style={styles.headerTitle}>CopticLingo</Text>
-          <Text style={styles.headerSubtitle}>ⲙⲁⲣⲓ ⲉⲣϩⲱⲃ!</Text>
+          <Text style={styles.headerSubtitle}>Ⲙⲁⲣⲉⲛϭⲓⲥⲃⲱ!</Text>
         </View>
         <ScrollView
           horizontal
@@ -314,6 +350,25 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
         <View style={styles.bottomPadding} />
       </ScrollView>
+
+      {/* Developer Mode Info Modal */}
+      {showDevModeModal && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Developer Mode</Text>
+            <Text style={styles.modalMessage}>
+              Developer/Debug mode is currently enabled.{'\n\n'}
+              • All lessons and units are unlocked{'\n'}
+              • Completed lessons do NOT count towards XP progress{'\n'}
+              • Achievements will NOT be unlocked{'\n\n'}
+              This mode is intended for testing and development purposes only. Disable it in Settings to track your real progress.
+            </Text>
+            <TouchableOpacity style={styles.modalButton} onPress={() => setShowDevModeModal(false)}>
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 };

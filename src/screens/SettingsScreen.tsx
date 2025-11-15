@@ -14,8 +14,8 @@ interface SettingsScreenProps {
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
   const { resetProgress, totalXP, level } = useProgressStore();
-  const { achievements } = useAchievementStore();
-  const { reviewItems } = useReviewStore();
+  const { achievements, resetAchievements } = useAchievementStore();
+  const { reviewItems, resetReviews } = useReviewStore();
   const { colors } = useTheme();
   const {
     audioEnabled,
@@ -34,6 +34,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
 
   const [versionTapCount, setVersionTapCount] = useState(0);
   const [lastTapTime, setLastTapTime] = useState(0);
+  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
 
   const handleVersionTap = () => {
     const now = Date.now();
@@ -66,30 +67,40 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
   };
 
   const handleResetProgress = () => {
-    Alert.alert(
-      'Reset All Progress',
-      'Are you sure you want to reset all your progress? This will delete:\n\n• All completed lessons\n• XP and level\n• Streaks\n• Achievements\n• Review history\n• Onboarding status\n\nThis action cannot be undone!',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Reset',
-          style: 'destructive',
-          onPress: async () => {
-            resetProgress();
-            // Also reset onboarding flag
-            try {
-              await AsyncStorage.removeItem('copticlingo-onboarding-complete');
-            } catch (e) {
-              console.warn('Failed to reset onboarding:', e);
-            }
-            Alert.alert('Progress Reset', 'Your progress has been reset successfully. Please restart the app to see the welcome screen.');
-          },
-        },
-      ]
-    );
+    console.log('Reset button clicked');
+    setShowResetConfirmation(true);
+  };
+
+  const confirmReset = async () => {
+    console.log('Reset confirmed - starting reset');
+    // Reset all stores
+    resetProgress();
+    resetAchievements();
+    resetReviews();
+
+    // Also reset onboarding flag
+    try {
+      await AsyncStorage.removeItem('copticlingo-onboarding-complete');
+      console.log('Onboarding flag cleared');
+    } catch (e) {
+      console.warn('Failed to reset onboarding:', e);
+    }
+    console.log('All stores reset');
+    setShowResetConfirmation(false);
+
+    // Automatically reload the page/app
+    if (typeof window !== 'undefined' && window.location) {
+      // Web - reload the page
+      window.location.reload();
+    } else {
+      // Mobile - show alert (can't auto-reload on native)
+      Alert.alert('Progress Reset', 'Your progress has been reset successfully. Please restart the app.');
+    }
+  };
+
+  const cancelReset = () => {
+    console.log('Reset cancelled');
+    setShowResetConfirmation(false);
   };
 
   const unlockedAchievementsCount = achievements.filter(a => a.unlocked).length;
@@ -229,6 +240,69 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     },
     footer: {
       height: 40,
+    },
+    modalOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+    },
+    modalContent: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 24,
+      width: '90%',
+      maxWidth: 400,
+      borderWidth: 2,
+      borderColor: colors.border,
+    },
+    modalTitle: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.textPrimary,
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+    modalMessage: {
+      fontSize: 15,
+      color: colors.textPrimary,
+      lineHeight: 22,
+      marginBottom: 24,
+    },
+    modalButtons: {
+      flexDirection: 'row',
+      gap: 12,
+    },
+    modalButtonCancel: {
+      flex: 1,
+      paddingVertical: 12,
+      borderRadius: 8,
+      backgroundColor: colors.surface,
+      borderWidth: 2,
+      borderColor: colors.border,
+    },
+    modalButtonConfirm: {
+      flex: 1,
+      paddingVertical: 12,
+      borderRadius: 8,
+      backgroundColor: colors.error,
+    },
+    modalButtonTextCancel: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.textPrimary,
+      textAlign: 'center',
+    },
+    modalButtonTextConfirm: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: '#FFFFFF',
+      textAlign: 'center',
     },
   });
 
@@ -444,6 +518,33 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
         {/* Footer spacing */}
         <View style={styles.footer} />
       </ScrollView>
+
+      {/* Reset Confirmation Modal */}
+      {showResetConfirmation && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Reset All Progress?</Text>
+            <Text style={styles.modalMessage}>
+              Are you sure you want to reset all your progress? This will delete:{'\n\n'}
+              • All completed lessons{'\n'}
+              • XP and level{'\n'}
+              • Streaks{'\n'}
+              • Achievements{'\n'}
+              • Review history{'\n'}
+              • Onboarding status{'\n\n'}
+              This action cannot be undone!
+            </Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.modalButtonCancel} onPress={cancelReset}>
+                <Text style={styles.modalButtonTextCancel}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButtonConfirm} onPress={confirmReset}>
+                <Text style={styles.modalButtonTextConfirm}>Reset</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 };

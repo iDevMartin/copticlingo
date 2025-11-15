@@ -88,6 +88,7 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       const today = new Date().toISOString().split('T')[0];
       const lastPractice = state.lastPracticeDate;
 
+      // First time practicing
       if (!lastPractice) {
         return {
           ...state,
@@ -102,9 +103,12 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
       const diffTime = currentDate.getTime() - lastDate.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
+      // Same day - no change to streak
       if (diffDays === 0) {
         return state;
-      } else if (diffDays === 1) {
+      }
+      // Next day - increment streak
+      else if (diffDays === 1) {
         const newStreak = state.currentStreak + 1;
         return {
           ...state,
@@ -112,10 +116,13 @@ export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }
           longestStreak: Math.max(newStreak, state.longestStreak),
           lastPracticeDate: today,
         };
-      } else {
+      }
+      // Missed days - reset to 1
+      else {
         return {
           ...state,
           currentStreak: 1,
+          longestStreak: state.longestStreak,
           lastPracticeDate: today,
         };
       }
