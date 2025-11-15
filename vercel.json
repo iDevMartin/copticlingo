@@ -2,7 +2,7 @@
   "buildCommand": "npm run build:web",
   "outputDirectory": "dist",
   "devCommand": "npm run web",
-  "installCommand": "npm install",
+  "installCommand": "npm ci --legacy-peer-deps || npm install --legacy-peer-deps",
   "framework": null,
   "rewrites": [
     {
