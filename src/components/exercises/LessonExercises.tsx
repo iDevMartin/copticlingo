@@ -16,9 +16,10 @@ interface LessonProps {
   exercises: Exercise[];
   onComplete: (correctCount: number, totalCount: number) => void;
   onExit: () => void;
+  isPracticeMode?: boolean; // Practice mode disables hearts
 }
 
-export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, onExit }) => {
+export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, onExit, isPracticeMode = false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -42,7 +43,8 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
     if (isCorrect) {
       setCorrectAnswers(prev => prev + 1);
       playCorrectSound();
-    } else {
+    } else if (!isPracticeMode) {
+      // Only deduct hearts in non-practice mode
       setHearts(prev => prev - 1);
     }
   };
@@ -53,7 +55,8 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
     if (correct) {
       setCorrectAnswers(prev => prev + 1);
       playCorrectSound();
-    } else {
+    } else if (!isPracticeMode) {
+      // Only deduct hearts in non-practice mode
       setHearts(prev => prev - 1);
     }
   };
@@ -63,7 +66,8 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
     // that handle their own state and just report results
     if (correct) {
       setCorrectAnswers(prev => prev + 1);
-    } else {
+    } else if (!isPracticeMode) {
+      // Only deduct hearts in non-practice mode
       setHearts(prev => prev - 1);
     }
 
@@ -81,7 +85,8 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
   };
 
   const handleContinue = () => {
-    if (hearts <= 0) {
+    // In practice mode, never end early due to hearts
+    if (!isPracticeMode && hearts <= 0) {
       onComplete(correctAnswers, exercises.length);
       return;
     }
@@ -248,13 +253,15 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
         <View style={styles.progressContainer}>
           <ProgressBar progress={progress} />
         </View>
-        <View style={styles.heartsContainer}>
-          {Array.from({ length: 3 }).map((_, i) => (
-            <Text key={i} style={styles.heart}>
-              {i < hearts ? '❤️' : '🤍'}
-            </Text>
-          ))}
-        </View>
+        {!isPracticeMode && (
+          <View style={styles.heartsContainer}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Text key={i} style={styles.heart}>
+                {i < hearts ? '❤️' : '🤍'}
+              </Text>
+            ))}
+          </View>
+        )}
       </View>
 
       {/* Exercise Content */}

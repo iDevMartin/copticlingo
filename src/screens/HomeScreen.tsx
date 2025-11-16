@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { LessonNode, Card } from '../components';
 import { copticUnits } from '../data/lessons';
@@ -14,6 +14,8 @@ interface HomeScreenProps {
   onReviewPress: () => void;
   onSettingsPress: () => void;
   onUnitTestPress: (testId: string) => void;
+  initialScrollY?: number;
+  onScrollPositionChange?: (scrollY: number) => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
@@ -22,6 +24,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onReviewPress,
   onSettingsPress,
   onUnitTestPress,
+  initialScrollY = 0,
+  onScrollPositionChange,
 }) => {
   const { completedLessons, totalXP, currentStreak, level } = useProgressStore();
   const { hasPassedTest, getTestProgress } = useUnitTestStore();
@@ -29,6 +33,18 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const { colors } = useTheme();
   const [isSmallScreen, setIsSmallScreen] = useState(Dimensions.get('window').width < 500);
   const [showDevModeModal, setShowDevModeModal] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const currentScrollY = useRef(0);
+
+  // Restore scroll position when returning to home screen
+  useEffect(() => {
+    if (initialScrollY > 0 && scrollViewRef.current) {
+      // Small delay to ensure layout is complete
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo({ y: initialScrollY, animated: false });
+      }, 100);
+    }
+  }, [initialScrollY]);
 
   // Debug: Log test data on mount
   useEffect(() => {
@@ -46,6 +62,18 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
   const handleDevModePress = () => {
     setShowDevModeModal(true);
+  };
+
+  const handleLessonPress = (lessonId: string) => {
+    // Save current scroll position before navigating
+    onScrollPositionChange?.(currentScrollY.current);
+    onLessonPress(lessonId);
+  };
+
+  const handleUnitTestPress = (testId: string) => {
+    // Save current scroll position before navigating
+    onScrollPositionChange?.(currentScrollY.current);
+    onUnitTestPress(testId);
   };
 
   const getLessonStatus = (lessonId: string, lessonOrder: number, unitLessons: any[]) => {
@@ -388,7 +416,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       </View>
 
       {/* Skill Tree */}
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        onScroll={(event) => {
+          // Just track in ref, don't update state during scroll
+          currentScrollY.current = event.nativeEvent.contentOffset.y;
+        }}
+        scrollEventThrottle={16}
+      >
         {copticUnits.map((unit) => {
           const unitLocked = getUnitLocked(unit.order);
           const unitTest = copticUnitTests.find(t => t.unitId === unit.id);
@@ -421,7 +458,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                       locked={isLocked}
                       completed={completed}
                       current={isCurrent}
-                      onPress={() => !isLocked && onLessonPress(lesson.id)}
+                      onPress={() => !isLocked && handleLessonPress(lesson.id)}
                     />
                   );
                 })}
@@ -436,7 +473,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     completed={testStatus.passed}
                     current={!testStatus.locked && !testStatus.passed}
                     icon={testStatus.passed ? '⭐' : '📝'}
-                    onPress={() => !testStatus.locked && onUnitTestPress(unitTest.id)}
+                    onPress={() => !testStatus.locked && handleUnitTestPress(unitTest.id)}
                   />
                 )}
 

@@ -31,6 +31,7 @@ export default function App() {
   const [reviewExercises, setReviewExercises] = useState<Exercise[]>([]);
   const [isReady, setIsReady] = useState(false);
   const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true);
+  const [homeScrollY, setHomeScrollY] = useState(0);
 
   useEffect(() => {
     async function prepare() {
@@ -158,6 +159,8 @@ export default function App() {
             onReviewPress={handleReviewPress}
             onSettingsPress={handleSettingsPress}
             onUnitTestPress={handleUnitTestPress}
+            initialScrollY={homeScrollY}
+            onScrollPositionChange={setHomeScrollY}
           />
         );
       case 'lesson':

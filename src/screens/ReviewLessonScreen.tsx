@@ -18,6 +18,7 @@ export const ReviewLessonScreen: React.FC<ReviewLessonScreenProps> = ({
       exercises={exercises}
       onComplete={onComplete}
       onExit={onExit}
+      isPracticeMode={true}
     />
   );
 };
