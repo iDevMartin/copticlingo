@@ -1,5 +1,7 @@
 # CopticLingo
 
+# 🌐 **[CopticLingo.com](https://CopticLingo.com)**
+
 A Duolingo-style language learning app for Bohairic Coptic, built with React Native and Expo.
 
 ## Overview

@@ -125,7 +125,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onComplete }) => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.content}>
           <Text style={styles.title}>Welcome to CopticLingo!</Text>
-          <Text style={styles.copticTitle}>ⲙⲁⲣⲓ ⲉⲣϩⲱⲃ!</Text>
+          <Text style={styles.copticTitle}>Ⲙⲁⲣⲉⲛϭⲓⲥⲃⲱ!</Text>
 
           {/* PWA Installation Banner for Mobile Web */}
           {isMobileWeb && (
