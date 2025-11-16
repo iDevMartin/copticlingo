@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Exercise } from '../../types';
+import { useTheme } from '../../theme/ThemeContext';
 
 interface FillBlankProps {
   exercise: Exercise;
@@ -9,12 +10,32 @@ interface FillBlankProps {
   showResult: boolean;
 }
 
+// Utility function to shuffle array
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 export const FillBlank: React.FC<FillBlankProps> = ({
   exercise,
   selectedAnswer,
   onAnswerSelect,
   showResult,
 }) => {
+  const { colors } = useTheme();
+  const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
+
+  // Shuffle options when exercise changes
+  useEffect(() => {
+    if (exercise.options) {
+      setShuffledOptions(shuffleArray([...exercise.options]));
+    }
+  }, [exercise.id]);
+
   const getOptionStyle = (option: string) => {
     if (!showResult) {
       return option === selectedAnswer ? styles.selectedOption : styles.option;
@@ -31,12 +52,96 @@ export const FillBlank: React.FC<FillBlankProps> = ({
     return styles.option;
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    question: {
+      fontSize: 22,
+      fontWeight: '700',
+      color: colors.textPrimary,
+      marginBottom: 32,
+      textAlign: 'center',
+    },
+    optionsContainer: {
+      gap: 12,
+    },
+    option: {
+      backgroundColor: colors.surface,
+      borderWidth: 2,
+      borderColor: colors.border,
+      borderRadius: 12,
+      padding: 18,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    selectedOption: {
+      backgroundColor: colors.infoLight,
+      borderWidth: 2,
+      borderColor: colors.info,
+      borderRadius: 12,
+      padding: 18,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    correctOption: {
+      backgroundColor: colors.successLight,
+      borderWidth: 2,
+      borderColor: colors.primary,
+      borderRadius: 12,
+      padding: 18,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    incorrectOption: {
+      backgroundColor: colors.errorLight,
+      borderWidth: 2,
+      borderColor: colors.error,
+      borderRadius: 12,
+      padding: 18,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    optionText: {
+      fontSize: 16,
+      color: colors.textPrimary,
+      fontWeight: '600',
+    },
+    checkmark: {
+      fontSize: 24,
+      color: colors.primary,
+    },
+    explanationBox: {
+      marginTop: 24,
+      backgroundColor: colors.warningLight,
+      borderRadius: 12,
+      padding: 16,
+      borderWidth: 2,
+      borderColor: colors.warning,
+    },
+    explanationTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.textPrimary,
+      marginBottom: 8,
+    },
+    explanationText: {
+      fontSize: 14,
+      color: colors.textPrimary,
+      lineHeight: 20,
+    },
+  });
+
   return (
     <View style={styles.container}>
       <Text style={styles.question}>{exercise.question}</Text>
 
       <View style={styles.optionsContainer}>
-        {exercise.options?.map((option, index) => (
+        {shuffledOptions.map((option, index) => (
           <TouchableOpacity
             key={index}
             style={getOptionStyle(option)}
@@ -61,87 +166,3 @@ export const FillBlank: React.FC<FillBlankProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  question: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#3C3C3C',
-    marginBottom: 32,
-    textAlign: 'center',
-  },
-  optionsContainer: {
-    gap: 12,
-  },
-  option: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 2,
-    borderColor: '#E5E5E5',
-    borderRadius: 12,
-    padding: 18,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  selectedOption: {
-    backgroundColor: '#E3F2FD',
-    borderWidth: 2,
-    borderColor: '#2196F3',
-    borderRadius: 12,
-    padding: 18,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  correctOption: {
-    backgroundColor: '#E8F5E9',
-    borderWidth: 2,
-    borderColor: '#58CC02',
-    borderRadius: 12,
-    padding: 18,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  incorrectOption: {
-    backgroundColor: '#FFEBEE',
-    borderWidth: 2,
-    borderColor: '#FF4B4B',
-    borderRadius: 12,
-    padding: 18,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  optionText: {
-    fontSize: 16,
-    color: '#3C3C3C',
-    fontWeight: '600',
-  },
-  checkmark: {
-    fontSize: 24,
-    color: '#58CC02',
-  },
-  explanationBox: {
-    marginTop: 24,
-    backgroundColor: '#FFF9C4',
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 2,
-    borderColor: '#FDD835',
-  },
-  explanationTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#3C3C3C',
-    marginBottom: 8,
-  },
-  explanationText: {
-    fontSize: 14,
-    color: '#3C3C3C',
-    lineHeight: 20,
-  },
-});

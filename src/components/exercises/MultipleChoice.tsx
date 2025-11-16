@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Exercise } from '../../types';
 import { useTheme } from '../../theme/ThemeContext';
@@ -10,6 +10,16 @@ interface MultipleChoiceProps {
   showResult: boolean;
 }
 
+// Utility function to shuffle array
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   exercise,
   selectedAnswer,
@@ -17,6 +27,14 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   showResult,
 }) => {
   const { colors } = useTheme();
+  const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
+
+  // Shuffle options when exercise changes
+  useEffect(() => {
+    if (exercise.options) {
+      setShuffledOptions(shuffleArray([...exercise.options]));
+    }
+  }, [exercise.id]);
 
   const styles = StyleSheet.create({
     container: {
@@ -49,13 +67,13 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       justifyContent: 'center',
     },
     selectedOption: {
-      borderColor: colors.primary,
-      backgroundColor: '#E8F5E9',
+      borderColor: colors.info,
+      backgroundColor: colors.infoLight,
       borderWidth: 3,
     },
     correctOption: {
       borderColor: colors.primary,
-      backgroundColor: '#E8F5E9',
+      backgroundColor: colors.successLight,
       borderWidth: 3,
     },
     incorrectOption: {
@@ -70,7 +88,7 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       fontWeight: '600',
     },
     selectedOptionText: {
-      color: colors.primary,
+      color: colors.info,
       fontWeight: '700',
     },
     correctOptionText: {
@@ -157,7 +175,7 @@ export const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       )}
 
       <View style={styles.optionsContainer}>
-        {exercise.options?.map((option, index) => (
+        {shuffledOptions.map((option, index) => (
           <Pressable
             key={index}
             style={getOptionStyle(option)}

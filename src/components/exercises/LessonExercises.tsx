@@ -63,7 +63,6 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
     // that handle their own state and just report results
     if (correct) {
       setCorrectAnswers(prev => prev + 1);
-      playCorrectSound();
     } else {
       setHearts(prev => prev - 1);
     }
@@ -72,6 +71,13 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
     setTimeout(() => {
       handleContinue();
     }, 2000);
+  };
+
+  const handleSoundOnCheck = (correct: boolean) => {
+    // Play sound immediately when answer is checked (not on Continue)
+    if (correct) {
+      playCorrectSound();
+    }
   };
 
   const handleContinue = () => {
@@ -197,6 +203,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
           <TranslationExercise
             exercise={currentExercise}
             onAnswer={handleSelfContainedExercise}
+            onCheckAnswer={handleSoundOnCheck}
           />
         );
       case 'sentence_building':
@@ -204,6 +211,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
           <SentenceBuildingExercise
             exercise={currentExercise}
             onAnswer={handleSelfContainedExercise}
+            onCheckAnswer={handleSoundOnCheck}
           />
         );
       case 'listening':

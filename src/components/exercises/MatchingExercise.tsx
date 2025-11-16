@@ -9,6 +9,16 @@ interface MatchingExerciseProps {
   showResult: boolean;
 }
 
+// Utility function to shuffle array
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 export const MatchingExercise: React.FC<MatchingExerciseProps> = ({
   exercise,
   onComplete,
@@ -18,10 +28,14 @@ export const MatchingExercise: React.FC<MatchingExerciseProps> = ({
   const [selectedEnglish, setSelectedEnglish] = useState<string | null>(null);
   const [matches, setMatches] = useState<{ [key: string]: string }>({});
 
-  // Shuffle English options once and memoize
+  // Shuffle both Coptic and English options once when exercise changes
+  const shuffledCoptic = useMemo(() => {
+    return shuffleArray(exercise.pairs?.map(p => p.coptic) || []);
+  }, [exercise.id]);
+
   const shuffledEnglish = useMemo(() => {
-    return [...(exercise.pairs?.map(p => p.english) || [])].sort(() => Math.random() - 0.5);
-  }, [exercise.pairs]);
+    return shuffleArray(exercise.pairs?.map(p => p.english) || []);
+  }, [exercise.id]);
 
   const handleCopticPress = (coptic: string) => {
     if (showResult) return;
@@ -112,19 +126,19 @@ export const MatchingExercise: React.FC<MatchingExerciseProps> = ({
 
       <View style={styles.matchingContainer}>
         <View style={styles.column}>
-          {exercise.pairs?.map((pair, index) => {
-            const isMatchedLeft = matches[pair.coptic] !== undefined;
+          {shuffledCoptic.map((coptic, index) => {
+            const isMatchedLeft = matches[coptic] !== undefined;
             return (
               <Button
                 key={index}
-                title={pair.coptic}
-                onPress={() => handleCopticPress(pair.coptic)}
-                variant={selectedCoptic === pair.coptic ? 'primary' : 'secondary'}
+                title={coptic}
+                onPress={() => handleCopticPress(coptic)}
+                variant={selectedCoptic === coptic ? 'primary' : 'secondary'}
                 disabled={showResult || isMatchedLeft}
                 style={[
                   styles.matchButton,
                   isMatchedLeft && styles.matchedButton,
-                  matches[pair.coptic] && getMatchStyle(pair.coptic, matches[pair.coptic]),
+                  matches[coptic] && getMatchStyle(coptic, matches[coptic]),
                 ]}
               />
             );

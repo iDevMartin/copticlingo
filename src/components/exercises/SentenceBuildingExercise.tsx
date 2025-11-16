@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Exercise } from '../../types';
 import { Button } from '../Button';
@@ -8,11 +8,13 @@ import { useTheme } from '../../theme/ThemeContext';
 interface SentenceBuildingProps {
   exercise: Exercise;
   onAnswer: (isCorrect: boolean) => void;
+  onCheckAnswer?: (isCorrect: boolean) => void;
 }
 
 export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
   exercise,
   onAnswer,
+  onCheckAnswer,
 }) => {
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [availableWords, setAvailableWords] = useState<string[]>(
@@ -21,6 +23,14 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const { colors } = useTheme();
+
+  // Reset state when exercise changes
+  useEffect(() => {
+    setSelectedWords([]);
+    setAvailableWords(exercise.wordBank ? shuffleArray([...exercise.wordBank]) : []);
+    setShowResult(false);
+    setIsCorrect(false);
+  }, [exercise.id]);
 
   const handleWordSelect = (word: string, index: number, fromAvailable: boolean) => {
     if (showResult) return;
@@ -45,15 +55,17 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
 
     setIsCorrect(correct);
     setShowResult(true);
-    // Don't call onAnswer here - wait for user to press Continue
+
+    // Call onCheckAnswer to play sound immediately
+    if (onCheckAnswer) {
+      onCheckAnswer(correct);
+    }
   };
 
   const handleContinue = () => {
     // Call onAnswer when user presses Continue
     onAnswer(isCorrect);
-    setSelectedWords([]);
-    setAvailableWords(exercise.wordBank ? shuffleArray([...exercise.wordBank]) : []);
-    setShowResult(false);
+    // State will reset when exercise prop changes to next question
   };
 
   const styles = StyleSheet.create({
@@ -117,7 +129,7 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
       borderColor: colors.border,
     },
     correctChip: {
-      backgroundColor: '#E8F5E9',
+      backgroundColor: colors.successLight,
       borderColor: colors.primary,
     },
     incorrectChip: {
@@ -141,7 +153,7 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
       marginBottom: 20,
     },
     correct: {
-      backgroundColor: '#E8F5E9',
+      backgroundColor: colors.successLight,
       borderWidth: 2,
       borderColor: colors.primary,
     },
