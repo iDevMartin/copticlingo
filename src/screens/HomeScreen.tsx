@@ -33,8 +33,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const { colors } = useTheme();
   const [isSmallScreen, setIsSmallScreen] = useState(Dimensions.get('window').width < 500);
   const [showDevModeModal, setShowDevModeModal] = useState(false);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   const currentScrollY = useRef(0);
+  const screenHeight = Dimensions.get('window').height;
 
   // Restore scroll position when returning to home screen
   useEffect(() => {
@@ -74,6 +76,22 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     // Save current scroll position before navigating
     onScrollPositionChange?.(currentScrollY.current);
     onUnitTestPress(testId);
+  };
+
+  const handleScrollToTop = () => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
+
+  const handleProfilePress = () => {
+    // Save current scroll position before navigating
+    onScrollPositionChange?.(currentScrollY.current);
+    onProfilePress();
+  };
+
+  const handleReviewPress = () => {
+    // Save current scroll position before navigating
+    onScrollPositionChange?.(currentScrollY.current);
+    onReviewPress();
   };
 
   const getLessonStatus = (lessonId: string, lessonOrder: number, unitLessons: any[]) => {
@@ -366,6 +384,27 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       color: '#FFFFFF',
       textAlign: 'center',
     },
+    scrollToTopButton: {
+      position: 'absolute',
+      bottom: 24,
+      right: 24,
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      zIndex: 999,
+    },
+    scrollToTopIcon: {
+      fontSize: 24,
+      color: '#FFFFFF',
+    },
   });
 
   return (
@@ -400,13 +439,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </View>
             </Card>
           )}
-          <Card style={styles.practiceCard} onPress={onReviewPress}>
+          <Card style={styles.practiceCard} onPress={handleReviewPress}>
             <View style={styles.practiceContent}>
               <Text style={styles.practiceIcon}>⚡</Text>
               {!isSmallScreen && <Text style={styles.practiceLabel}>Practice</Text>}
             </View>
           </Card>
-          <Card style={styles.xpCard} onPress={onProfilePress}>
+          <Card style={styles.xpCard} onPress={handleProfilePress}>
             <View style={styles.xpContent}>
               <Text style={styles.xpLabel}>Level {level}</Text>
               <Text style={styles.xpValue}>{totalXP} XP</Text>
@@ -423,6 +462,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         onScroll={(event) => {
           // Just track in ref, don't update state during scroll
           currentScrollY.current = event.nativeEvent.contentOffset.y;
+          // Show scroll to top button when scrolled more than one screen height
+          const shouldShow = event.nativeEvent.contentOffset.y > screenHeight;
+          if (shouldShow !== showScrollToTop) {
+            setShowScrollToTop(shouldShow);
+          }
         }}
         scrollEventThrottle={16}
       >
@@ -514,6 +558,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </TouchableOpacity>
           </View>
         </View>
+      )}
+
+      {/* Scroll to Top Button */}
+      {showScrollToTop && (
+        <TouchableOpacity
+          style={styles.scrollToTopButton}
+          onPress={handleScrollToTop}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.scrollToTopIcon}>↑</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
