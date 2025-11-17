@@ -11,6 +11,9 @@ export const ThemeColorUpdater = () => {
       if (metaThemeColor) {
         metaThemeColor.setAttribute('content', colors.surface);
       }
+
+      // Update body background to match theme (fixes iOS status bar with black-translucent)
+      document.body.style.backgroundColor = colors.surface;
     }
   }, [colors.surface]);
 
