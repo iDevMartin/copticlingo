@@ -3,4 +3,3 @@ export { Card } from './Card';
 export { ProgressBar } from './ProgressBar';
 export { LessonNode } from './LessonNode';
 export { AchievementModal } from './AchievementModal';
-export { SwipeBackScreen } from './SwipeBackScreen';

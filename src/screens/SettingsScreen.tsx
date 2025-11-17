@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
-import { Card, Button, SwipeBackScreen } from '../components';
+import { Card, Button } from '../components';
 import { useProgressStore } from '../store/progressStore';
 import { useAchievementStore } from '../store/achievementStore';
 import { useReviewStore } from '../store/reviewStore';
@@ -540,10 +540,9 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
   });
 
   return (
-    <SwipeBackScreen onSwipeBack={onBack}>
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
           <Text style={styles.backIcon}>←</Text>
         </TouchableOpacity>
@@ -840,6 +839,5 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         </View>
       )}
     </View>
-    </SwipeBackScreen>
   );
 };

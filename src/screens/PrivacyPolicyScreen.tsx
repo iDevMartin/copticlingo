@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
-import { SwipeBackScreen } from '../components/SwipeBackScreen';
 
 interface PrivacyPolicyScreenProps {
   onBack: () => void;
@@ -89,10 +88,9 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = ({ onBack
   });
 
   return (
-    <SwipeBackScreen onSwipeBack={onBack}>
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
           <Text style={styles.backIcon}>←</Text>
         </TouchableOpacity>
@@ -208,6 +206,5 @@ export const PrivacyPolicyScreen: React.FC<PrivacyPolicyScreenProps> = ({ onBack
         <View style={styles.footer} />
       </ScrollView>
     </View>
-    </SwipeBackScreen>
   );
 };
