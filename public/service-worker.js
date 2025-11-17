@@ -1,5 +1,5 @@
 // Service Worker for CopticLingo PWA
-const CACHE_NAME = 'copticlingo-v16';
+const CACHE_NAME = 'copticlingo-v17';
 const OFFLINE_URL = '/';
 
 // Files to cache for offline use
@@ -7,6 +7,10 @@ const CACHE_URLS = [
   '/',
   '/index.html',
   '/static/js/bundle.js',
+  '/favicon.ico',
+  '/favicon-16x16.png',
+  '/favicon-32x32.png',
+  '/apple-touch-icon.png',
 ];
 
 // Install event - cache essential files
