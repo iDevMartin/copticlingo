@@ -1,5 +1,5 @@
 // Service Worker for CopticLingo PWA
-const CACHE_NAME = 'copticlingo-v20';
+const CACHE_NAME = 'copticlingo-v21';
 const OFFLINE_URL = '/';
 
 // Files to cache for offline use
