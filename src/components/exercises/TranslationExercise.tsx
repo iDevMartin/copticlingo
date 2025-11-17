@@ -30,6 +30,7 @@ export const TranslationExercise: React.FC<TranslationExerciseProps> = ({
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { colors } = useTheme();
 
   // Reset state when exercise changes
@@ -37,6 +38,7 @@ export const TranslationExercise: React.FC<TranslationExerciseProps> = ({
     setUserAnswer('');
     setShowResult(false);
     setIsCorrect(false);
+    setIsProcessing(false);
     if (exercise.options) {
       setShuffledOptions(shuffleArray([...exercise.options]));
     }
@@ -60,6 +62,8 @@ export const TranslationExercise: React.FC<TranslationExerciseProps> = ({
   };
 
   const handleContinue = () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
     // Call onAnswer when user presses Continue
     onAnswer(isCorrect);
     // State will reset when exercise prop changes to next question
@@ -273,7 +277,7 @@ export const TranslationExercise: React.FC<TranslationExerciseProps> = ({
             )}
           </View>
 
-          <Button title="Continue" onPress={handleContinue} style={styles.continueButton} />
+          <Button title="Continue" onPress={handleContinue} disabled={isProcessing} style={styles.continueButton} />
         </View>
       )}
     </Card>

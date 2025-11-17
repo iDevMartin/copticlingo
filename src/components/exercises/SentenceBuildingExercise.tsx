@@ -22,6 +22,7 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
   );
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { colors } = useTheme();
 
   // Reset state when exercise changes
@@ -30,6 +31,7 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
     setAvailableWords(exercise.wordBank ? shuffleArray([...exercise.wordBank]) : []);
     setShowResult(false);
     setIsCorrect(false);
+    setIsProcessing(false);
   }, [exercise.id]);
 
   const handleWordSelect = (word: string, index: number, fromAvailable: boolean) => {
@@ -63,6 +65,8 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
   };
 
   const handleContinue = () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
     // Call onAnswer when user presses Continue
     onAnswer(isCorrect);
     // State will reset when exercise prop changes to next question
@@ -287,7 +291,7 @@ export const SentenceBuildingExercise: React.FC<SentenceBuildingProps> = ({
             )}
           </View>
 
-          <Button title="Continue" onPress={handleContinue} style={styles.continueButton} />
+          <Button title="Continue" onPress={handleContinue} disabled={isProcessing} style={styles.continueButton} />
         </View>
       )}
     </Card>
