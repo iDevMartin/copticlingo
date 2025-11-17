@@ -26,6 +26,8 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [hearts, setHearts] = useState(3);
   const [exerciseCompleted, setExerciseCompleted] = useState(false);
+  const [allPairsMatched, setAllPairsMatched] = useState(false);
+  const [matchingWasCorrect, setMatchingWasCorrect] = useState(false);
   const { playCorrectSound } = useSoundEffect();
   const { colors } = useTheme();
 
@@ -38,6 +40,12 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
 
   const handleCheckAnswer = () => {
     setShowResult(true);
+
+    // For matching exercises, let the MatchingExercise component handle scoring
+    if (currentExercise.type === 'matching') {
+      return;
+    }
+
     const isCorrect = selectedAnswer === currentExercise.correctAnswer;
 
     if (isCorrect) {
@@ -52,6 +60,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
   const handleMatchingComplete = (correct: boolean) => {
     setShowResult(true);
     setExerciseCompleted(true);
+    setMatchingWasCorrect(correct);
     if (correct) {
       setCorrectAnswers(prev => prev + 1);
       playCorrectSound();
@@ -96,6 +105,8 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
       setSelectedAnswer(null);
       setShowResult(false);
       setExerciseCompleted(false);
+      setAllPairsMatched(false);
+      setMatchingWasCorrect(false);
     } else {
       onComplete(correctAnswers + (selectedAnswer === currentExercise.correctAnswer ? 0 : 0), exercises.length);
     }
@@ -201,6 +212,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
             exercise={currentExercise}
             onComplete={handleMatchingComplete}
             showResult={showResult}
+            onMatchesChange={setAllPairsMatched}
           />
         );
       case 'translation':
@@ -278,7 +290,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
               <Button
                 title="Check"
                 onPress={handleCheckAnswer}
-                disabled={!selectedAnswer && currentExercise.type !== 'matching'}
+                disabled={currentExercise.type === 'matching' ? !allPairsMatched : !selectedAnswer}
                 fullWidth
               />
             ) : (
@@ -286,8 +298,7 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
                 <View
                   style={[
                     styles.resultBanner,
-                    selectedAnswer === currentExercise.correctAnswer ||
-                    currentExercise.type === 'matching'
+                    (currentExercise.type === 'matching' ? matchingWasCorrect : selectedAnswer === currentExercise.correctAnswer)
                       ? styles.correctBanner
                       : styles.incorrectBanner,
                   ]}
@@ -295,14 +306,12 @@ export const LessonExercises: React.FC<LessonProps> = ({ exercises, onComplete, 
                   <Text
                     style={[
                       styles.resultText,
-                      selectedAnswer === currentExercise.correctAnswer ||
-                      currentExercise.type === 'matching'
+                      (currentExercise.type === 'matching' ? matchingWasCorrect : selectedAnswer === currentExercise.correctAnswer)
                         ? styles.correctText
                         : styles.incorrectText,
                     ]}
                   >
-                    {selectedAnswer === currentExercise.correctAnswer ||
-                    (currentExercise.type === 'matching' && exerciseCompleted)
+                    {(currentExercise.type === 'matching' ? matchingWasCorrect : selectedAnswer === currentExercise.correctAnswer)
                       ? '✓ Correct!'
                       : '✗ Incorrect'}
                   </Text>

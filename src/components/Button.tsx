@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   fullWidth?: boolean;
   style?: ViewStyle;
+  textStyle?: TextStyle;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -18,6 +19,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   fullWidth = false,
   style,
+  textStyle,
 }) => {
   const { colors } = useTheme();
 
@@ -81,7 +83,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       activeOpacity={0.7}
     >
-      <Text style={[styles.text, styles[`${variant}Text` as keyof typeof styles] as TextStyle]}>
+      <Text style={[styles.text, styles[`${variant}Text` as keyof typeof styles] as TextStyle, textStyle]}>
         {title}
       </Text>
     </TouchableOpacity>
