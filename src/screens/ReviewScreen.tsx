@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Card, Button } from '../components';
+import { Card, Button, SwipeBackScreen } from '../components';
 import { useReviewStore } from '../store/reviewStore';
 import { useProgressStore } from '../store/progressStore';
 import { copticUnits } from '../data/lessons';
@@ -216,9 +216,10 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({ onStartReview, onBac
   });
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+    <SwipeBackScreen onSwipeBack={onBack}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
           <Text style={styles.backIcon}>←</Text>
         </TouchableOpacity>
@@ -359,6 +360,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({ onStartReview, onBac
         </Card>
       </ScrollView>
     </View>
+    </SwipeBackScreen>
   );
 };
 

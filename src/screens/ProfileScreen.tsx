@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Card } from '../components';
+import { Card, SwipeBackScreen } from '../components';
 import { useProgressStore } from '../store/progressStore';
 import { useAchievementStore } from '../store/achievementStore';
 import { useTheme } from '../theme/ThemeContext';
@@ -182,9 +182,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onBack, onSettings
   });
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+    <SwipeBackScreen onSwipeBack={onBack}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
           <Text style={styles.backText}>← Back</Text>
         </TouchableOpacity>
@@ -263,6 +264,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ onBack, onSettings
         </View>
       </ScrollView>
     </View>
+    </SwipeBackScreen>
   );
 };
 

@@ -11,6 +11,8 @@ import { ProfileScreen } from './src/screens/ProfileScreen';
 import { ReviewScreen } from './src/screens/ReviewScreen';
 import { ReviewLessonScreen } from './src/screens/ReviewLessonScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
+import { PrivacyPolicyScreen } from './src/screens/PrivacyPolicyScreen';
+import { TermsOfServiceScreen } from './src/screens/TermsOfServiceScreen';
 import { UnitTestScreen } from './src/screens/UnitTestScreen';
 import { audioService } from './src/utils/audioService';
 import { Exercise } from './src/types';
@@ -22,7 +24,7 @@ import { UnitTestProvider } from './src/store/unitTestStore.tsx';
 import { ThemeProvider } from './src/theme/ThemeContext.tsx';
 import { ThemeColorUpdater } from './src/components/ThemeColorUpdater';
 
-type Screen = 'welcome' | 'onboarding' | 'home' | 'lesson' | 'profile' | 'review' | 'settings' | 'reviewLesson' | 'unitTest';
+type Screen = 'welcome' | 'onboarding' | 'home' | 'lesson' | 'profile' | 'review' | 'settings' | 'reviewLesson' | 'unitTest' | 'privacyPolicy' | 'termsOfService';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('welcome');
@@ -32,6 +34,8 @@ export default function App() {
   const [isReady, setIsReady] = useState(false);
   const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true);
   const [homeScrollY, setHomeScrollY] = useState(0);
+  const [settingsScrollY, setSettingsScrollY] = useState(0);
+  const [settingsScrollKey, setSettingsScrollKey] = useState(0);
 
   useEffect(() => {
     async function prepare() {
@@ -130,6 +134,24 @@ export default function App() {
     setCurrentScreen('home');
   };
 
+  const handlePrivacyPolicyPress = () => {
+    setCurrentScreen('privacyPolicy');
+  };
+
+  const handlePrivacyPolicyBack = () => {
+    setCurrentScreen('settings');
+    setSettingsScrollKey(prev => prev + 1); // Trigger scroll restoration
+  };
+
+  const handleTermsOfServicePress = () => {
+    setCurrentScreen('termsOfService');
+  };
+
+  const handleTermsOfServiceBack = () => {
+    setCurrentScreen('settings');
+    setSettingsScrollKey(prev => prev + 1); // Trigger scroll restoration
+  };
+
   const handleUnitTestPress = (testId: string) => {
     setSelectedUnitTestId(testId);
     setCurrentScreen('unitTest');
@@ -194,7 +216,20 @@ export default function App() {
           />
         ) : null;
       case 'settings':
-        return <SettingsScreen onBack={handleSettingsBack} />;
+        return (
+          <SettingsScreen
+            key={settingsScrollKey}
+            onBack={handleSettingsBack}
+            onPrivacyPolicyPress={handlePrivacyPolicyPress}
+            onTermsOfServicePress={handleTermsOfServicePress}
+            initialScrollY={settingsScrollY}
+            onScrollPositionChange={setSettingsScrollY}
+          />
+        );
+      case 'privacyPolicy':
+        return <PrivacyPolicyScreen onBack={handlePrivacyPolicyBack} />;
+      case 'termsOfService':
+        return <TermsOfServiceScreen onBack={handleTermsOfServiceBack} />;
       case 'unitTest':
         return selectedUnitTestId ? (
           <UnitTestScreen

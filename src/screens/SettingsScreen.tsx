@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
-import { Card, Button } from '../components';
+import { Card, Button, SwipeBackScreen } from '../components';
 import { useProgressStore } from '../store/progressStore';
 import { useAchievementStore } from '../store/achievementStore';
 import { useReviewStore } from '../store/reviewStore';
@@ -13,9 +13,19 @@ import { useTheme } from '../theme/ThemeContext';
 
 interface SettingsScreenProps {
   onBack: () => void;
+  onPrivacyPolicyPress: () => void;
+  onTermsOfServicePress: () => void;
+  initialScrollY?: number;
+  onScrollPositionChange?: (scrollY: number) => void;
 }
 
-export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
+export const SettingsScreen: React.FC<SettingsScreenProps> = ({
+  onBack,
+  onPrivacyPolicyPress,
+  onTermsOfServicePress,
+  initialScrollY = 0,
+  onScrollPositionChange,
+}) => {
   const { resetProgress, totalXP, level } = useProgressStore();
   const { achievements, resetAchievements } = useAchievementStore();
   const { reviewItems, resetReviews } = useReviewStore();
@@ -40,6 +50,29 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
   const [showResetConfirmation, setShowResetConfirmation] = useState(false);
   const [showImportConfirmation, setShowImportConfirmation] = useState(false);
   const [pendingImportData, setPendingImportData] = useState<any>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const currentScrollY = useRef(0);
+
+  // Restore scroll position when component mounts
+  React.useEffect(() => {
+    if (initialScrollY > 0 && scrollViewRef.current) {
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo({ y: initialScrollY, animated: false });
+      }, 100);
+    }
+  }, []);
+
+  const handlePrivacyPress = () => {
+    // Save current scroll position before navigating
+    onScrollPositionChange?.(currentScrollY.current);
+    onPrivacyPolicyPress();
+  };
+
+  const handleTermsPress = () => {
+    // Save current scroll position before navigating
+    onScrollPositionChange?.(currentScrollY.current);
+    onTermsOfServicePress();
+  };
 
   const handleVersionTap = () => {
     const now = Date.now();
@@ -507,9 +540,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
   });
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
+    <SwipeBackScreen onSwipeBack={onBack}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
           <Text style={styles.backIcon}>←</Text>
         </TouchableOpacity>
@@ -517,7 +551,15 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
         <View style={styles.placeholder} />
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        onScroll={(event) => {
+          currentScrollY.current = event.nativeEvent.contentOffset.y;
+        }}
+        scrollEventThrottle={16}
+      >
         {/* Account Info */}
         <Card style={styles.section}>
           <Text style={styles.sectionTitle}>Account Summary</Text>
@@ -722,7 +764,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
 
           <View style={styles.divider} />
 
-          <TouchableOpacity style={styles.actionRow}>
+          <TouchableOpacity style={styles.actionRow} onPress={handlePrivacyPress}>
             <View style={styles.actionInfo}>
               <Text style={styles.actionLabel}>Privacy Policy</Text>
             </View>
@@ -731,7 +773,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
 
           <View style={styles.divider} />
 
-          <TouchableOpacity style={styles.actionRow}>
+          <TouchableOpacity style={styles.actionRow} onPress={handleTermsPress}>
             <View style={styles.actionInfo}>
               <Text style={styles.actionLabel}>Terms of Service</Text>
             </View>
@@ -798,5 +840,6 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
         </View>
       )}
     </View>
+    </SwipeBackScreen>
   );
 };
