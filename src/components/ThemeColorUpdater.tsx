@@ -11,11 +11,8 @@ export const ThemeColorUpdater = () => {
       if (metaThemeColor) {
         metaThemeColor.setAttribute('content', colors.surface);
       }
-
-      // Also update body background color to prevent white flashes
-      document.body.style.backgroundColor = colors.background;
     }
-  }, [colors.surface, colors.background]);
+  }, [colors.surface]);
 
   return null;
 };
