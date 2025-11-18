@@ -1,0 +1,12 @@
+# CopticLingo - Robots.txt
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+
+# Prevent indexing of service worker and technical files
+Disallow: /service-worker.js
+Disallow: /static/
+
+# Sitemap location
+Sitemap: https://copticlingo.com/sitemap.xml
