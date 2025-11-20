@@ -13,7 +13,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const { darkModeEnabled, themeSelection } = useSettingsStore();
 
   // Select color palette based on BOTH theme and dark mode
-  const colors = themes[themeSelection][darkModeEnabled ? 'dark' : 'light'];
+  // Default to 'blue' if themeSelection is invalid
+  const theme = themeSelection && themes[themeSelection] ? themeSelection : 'blue';
+  const colors = themes[theme][darkModeEnabled ? 'dark' : 'light'];
 
   return (
     <ThemeContext.Provider value={{ colors, isDark: darkModeEnabled }}>
